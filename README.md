@@ -1,6 +1,6 @@
 # NanoGPT (Minimal GPT Training Demo)
 
-This repository contains a minimal GPT-style language model training demo based on Andrej Karpathy's "nanoGPT" / "minGPT" style tutorial. It showcases how to load a small text dataset, build a simple Bigram language model in PyTorch, and train it to generate text.
+This repository contains a minimal GPT-style language model training demo based on Andrej Karpathy's "nanoGPT" / "minGPT" style tutorial. It showcases how to load a small text dataset, build a Transformer-based language model in PyTorch with multi-head self-attention, and train it to generate coherent text.
 
 > **Note:** This is a learning/demo project and is not intended for production use.
 >
@@ -45,18 +45,31 @@ The script will:
 4. Periodically print training/validation loss and generate a short sample of generated text.
 
 ##  What’s Inside `gptdev.py`
-- A simple character-level tokenizer using a vocabulary of unique characters.
-- A `BigramLanguageModel` class implemented in PyTorch.
-- Training loop with evaluation and sampling.
+
+- **Character-level tokenizer** using a vocabulary of unique characters
+- **Multi-head self-attention** (`Head` and `MultiHeadAttention` classes) with causal masking
+- **Transformer blocks** with 6 layers of attention + feedforward networks
+- **FeedForward layers** (linear → ReLU → linear with dropout)
+- **Configurable hyperparameters**:
+  - `n_embd = 384` — embedding dimensions
+  - `n_head = 6` — number of attention heads
+  - `n_layer = 6` — number of transformer blocks
+  - `block_size = 256` — context length for predictions
+  - `dropout = 0.2` — regularization to prevent overfitting
+- **Training loop** with periodic loss evaluation and text generation
 
 ##  Notes / Next Steps
 
-If you want to extend this project, consider:
+Potential improvements and extensions:
 
-- Implementing a true transformer model (multi-head self-attention, positional embeddings, etc.).
-- Using a larger dataset and longer sequences.
-- Adding checkpoint saving/loading.
-- Adding command-line arguments for hyperparameters.
+- Implement positional embeddings for better context awareness
+- Add checkpoint saving/loading to resume training
+- Use a larger dataset (e.g., full Project Gutenberg texts)
+- Add command-line argument parsing for hyperparameters
+- Implement layer normalization for more stable training
+- Experiment with different optimizer schedules (learning rate warmup, decay, etc.)
+- Visualize attention patterns to understand what the model learns
+- Fine-tune hyperparameters based on validation loss curves
 
 ---
 
